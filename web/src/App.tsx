@@ -218,7 +218,7 @@ function MessageRow({ m, me, active, onSelect }: { m: Message; me: string; activ
         {user ? <p className="assistant-question">{m.text}</p> : <AnswerBody m={m} />}
         {!user && (
           <span className="flex flex-wrap items-center gap-2 text-2xs text-fg-muted">
-            {t("ask.footer", { calls: m.sources?.length ?? 0, time: seconds(m.ms ?? 0), model: m.model ?? "" })}
+            {t("ask.footer", { count: m.sources?.length ?? 0, time: seconds(m.ms ?? 0), model: m.model ?? "" })}
             <Button size="xs" variant="ghost" onClick={onSelect} aria-pressed={active}>
               {t("ask.showSources")}
             </Button>
@@ -721,7 +721,9 @@ function SourcesPage({ call, sources, model, reload }: { call: Call; sources?: S
       cell: (s) =>
         s.connection ? (
           <span className="flex flex-col">
-            <StatusBadge tone="success">{t("sources.connected")}</StatusBadge>
+            <StatusBadge tone="success" className="self-start">
+              {t("sources.connected")}
+            </StatusBadge>
             <span className="text-2xs text-fg-muted">
               {s.connection.lastUsedAt
                 ? t("sources.lastUsed", { when: when(s.connection.lastUsedAt) })
