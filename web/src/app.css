@@ -1,0 +1,234 @@
+/* The few layouts this product needs that @openasy/ui's prebuilt styles do not include. Colours stay in the library's tokens. */
+
+.assistant-error {
+  margin: 0.5rem 0;
+  font-size: 0.8125rem;
+  color: var(--oa-danger-text);
+}
+
+.assistant-wrap {
+  overflow-wrap: anywhere;
+}
+
+.assistant-list-plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.assistant-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.assistant-steps {
+  list-style: decimal;
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+}
+
+/* The conversation beside its sources from 1280px, one under the other before. */
+.assistant-ask {
+  display: grid;
+  gap: 0.625rem;
+}
+
+@media (min-width: 1280px) {
+  .assistant-ask {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    align-items: start;
+  }
+}
+
+.assistant-cols {
+  display: grid;
+  gap: 0.625rem;
+}
+
+@media (min-width: 1024px) {
+  .assistant-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.assistant-thread {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.assistant-message {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 0.625rem;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+}
+
+.assistant-message[data-active] {
+  background: var(--oa-canvas);
+}
+
+.assistant-avatar {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.375rem;
+  background: var(--oa-accent-soft);
+  color: var(--oa-accent-text);
+}
+
+.assistant-question {
+  margin: 0;
+  font-size: 0.875rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.assistant-answer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  overflow-wrap: anywhere;
+}
+
+.assistant-answer p {
+  margin: 0;
+}
+
+/* A part that cites nothing is shown a little apart, so it is not read as data. */
+.assistant-block[data-uncited] {
+  border-left: 2px solid var(--oa-line-strong);
+  padding-left: 0.5rem;
+  color: var(--oa-fg-muted);
+}
+
+.assistant-uncited {
+  font-size: 0.6875rem;
+  color: var(--oa-fg-subtle);
+}
+
+.assistant-code {
+  font-family: var(--oa-font-mono);
+  font-size: 0.75rem;
+  background: var(--oa-subtle);
+  border-radius: 0.25rem;
+  padding: 0 0.25rem;
+}
+
+.assistant-cite {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 1.25rem;
+  margin: 0 0.125rem;
+  padding: 0 0.375rem;
+  border: 1px solid var(--oa-line);
+  border-radius: 0.25rem;
+  background: var(--oa-surface);
+  color: var(--oa-fg);
+  font-family: var(--oa-font-mono);
+  font-size: 0.6875rem;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+a.assistant-cite:hover {
+  border-color: var(--oa-line-strong);
+  background: var(--oa-subtle);
+}
+
+.assistant-cite-n,
+.assistant-n {
+  color: var(--oa-fg-muted);
+  font-family: var(--oa-font-mono);
+  font-size: 0.6875rem;
+}
+
+.assistant-source {
+  border-bottom: 1px solid var(--oa-line);
+}
+
+.assistant-source:last-child {
+  border-bottom: 0;
+}
+
+.assistant-source-row {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--oa-fg);
+  text-decoration: none;
+}
+
+a.assistant-source-row:hover {
+  background: var(--oa-canvas);
+}
+
+.assistant-empty {
+  margin: 0;
+  padding: 1rem 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--oa-fg-muted);
+}
+
+.assistant-composer {
+  margin-top: 0.625rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 0.5rem;
+  border: 1px solid var(--oa-line-strong);
+  border-radius: 0.5rem;
+  background: var(--oa-surface);
+}
+
+.assistant-textarea {
+  font: inherit;
+  font-size: 0.875rem;
+  min-height: 3.5rem;
+  padding: 0.25rem;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  resize: vertical;
+}
+
+.assistant-filter {
+  margin-bottom: 0.625rem;
+  max-width: 20rem;
+}
+
+/* Facts of the model: a label, then its value. */
+.assistant-facts {
+  display: grid;
+  grid-template-columns: minmax(7rem, max-content) minmax(0, 1fr);
+  gap: 0.375rem 1rem;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.assistant-facts dt {
+  color: var(--oa-fg-muted);
+}
+
+.assistant-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}

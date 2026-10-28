@@ -1,0 +1,49 @@
+# Assistant. People ask in plain language; a language model you choose answers, calling only read-only tools that
+# read the other OpenAsy products with each person's own token for them, and every answer cites the calls it made.
+# No model is set up and nothing leaves the install until an admin sets one under Model (ADR 0015, 0073).
+#
+#   openssl rand -hex 32 > openasy-kek   # Assistant's key: sign-in secrets, people's product tokens, the model's API key (ADR 0021). Keep it with your backups
+#   docker compose up -d
+#   docker compose logs assistant | grep 'no owner yet'   # the one-time link that creates the owner account
+services:
+  assistant:
+    image: ghcr.io/openasy/assistant:0.1.0
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs: [/tmp]
+    ports:
+      - "127.0.0.1:8080:8080" # UI and API; put a TLS proxy in front to reach it from elsewhere
+    volumes:
+      - assistant-data:/data # SQLite database: the model, sources, sealed tokens and conversations
+    secrets:
+      - openasy-kek # mounted at /run/secrets/openasy-kek; without it nobody can connect a product
+    environment:
+      # The address people open Assistant at; with a TLS proxy in front, its https:// URL.
+      ASSISTANT_PUBLIC_URL: ${ASSISTANT_PUBLIC_URL:-http://localhost:8080}
+      # The install's products: where the tools read them until an admin sets another address under Sources.
+      OPENASY_PRODUCTS: ${OPENASY_PRODUCTS:-}
+      # How long conversations are kept until an admin sets it, and how long a model may take for one turn.
+      ASSISTANT_RETENTION_DAYS: ${ASSISTANT_RETENTION_DAYS:-30}
+      ASSISTANT_MODEL_TIMEOUT_SECONDS: ${ASSISTANT_MODEL_TIMEOUT_SECONDS:-120}
+      # Sign in with your identity provider (OIDC), see the README:
+      # OPENASY_OIDC_ISSUER: https://login.example.com
+      # OPENASY_OIDC_CLIENT_ID: assistant
+      # OPENASY_OIDC_CLIENT_SECRET: ${OPENASY_OIDC_CLIENT_SECRET}
+
+  # A model on this host, so nothing leaves it: set http://ollama:11434/v1 under Model, then
+  #   docker compose exec ollama ollama pull llama3.1:8b
+  # ollama:
+  #   image: ollama/ollama:0.12.6
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ollama-models:/root/.ollama
+
+volumes:
+  assistant-data:
+  # ollama-models:
+
+secrets:
+  openasy-kek:
+    file: ./openasy-kek
