@@ -66,7 +66,7 @@ import {
   type Settings,
   type Source,
 } from "./api.ts";
-import { useT } from "./i18n.ts";
+import { useT, viewerLocale, setViewerLocale, fixed } from "./i18n.ts";
 import { search } from "./search.ts";
 
 const PAGES = ["history", "sources", "model", "account", "members", "signin", "tokens"] as const;
@@ -99,8 +99,8 @@ function useApi() {
 }
 type Call = ReturnType<typeof useApi>;
 
-const when = (iso: string) => new Date(iso).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
-const seconds = (ms: number) => `${(ms / 1000).toFixed(1)} s`;
+const when = (iso: string) => new Date(iso).toLocaleString(viewerLocale(), { dateStyle: "medium", timeStyle: "short" });
+const seconds = (ms: number) => `${fixed(ms / 1000, 1)} s`;
 const productOf = (id: string | null) => (id && (PRODUCT_IDS as readonly string[]).includes(id) ? PRODUCTS[id as ProductId] : PRODUCTS.assistant);
 
 function ErrorText({ message }: { message?: string }) {
@@ -1119,6 +1119,7 @@ export function App() {
   const installBrand = useInstallBrand();
   const [theme] = useThemePreference();
   const [locale] = useLocalePreference();
+  setViewerLocale(locale);
   return (
     // The install's brand from config/brand.env (ADR 0053); OpenAsy's own look where it sets none.
     <BrandProvider theme={theme} locale={locale} brand={{ name: "OpenAsy", organization: undefined, ...installBrand }} className="min-h-screen">
