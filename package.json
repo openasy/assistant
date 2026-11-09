@@ -1,6 +1,6 @@
 {
   "name": "@openasy/assistant",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "OpenAsy Assistant: questions across products in plain language, answered with read-only tools as the person asking, every claim citing the logs, metrics and signals it came from.",
   "license": "AGPL-3.0-only",
